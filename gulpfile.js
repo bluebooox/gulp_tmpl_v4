@@ -184,10 +184,15 @@ gulp.task('lint', function () {
 gulp.task('default', gulp.series('sass', 'pug', 'lint'));
 
 
-// watch
-// gulp.task("watch", gulp.parallel(watchFiles, browserSync));
+function watch() {
+  browsersync.init({
+    server: {
+      baseDir: "./dest/"
+    },
+    port: 8890
+  });
+  gulp.watch(['./src/sass/**/*'], gulp.task('sass'));
+  gulp.watch(['./src/pug/*.pug'], gulp.task('pug'));
+};
 
-gulp.task('watch', gulp.parallel(browserSync) ,function () {
-  gulp.watch('./src/sass/**/*', gulp.task('sass'));
-  gulp.watch('./src/pug/**/*', gulp.task('pug'));
-});
+exports.watch = watch
